@@ -25,6 +25,7 @@ gem "devise"
 gem "slim-rails"
 
 gem 'rest-client'
+gem 'chronic_duration'
 
 group :development do
   gem "quiet_assets"
