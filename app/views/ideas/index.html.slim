@@ -1,22 +1,17 @@
 .container
-  .row
-    .span12
-      .question-container
-        h1.question
-  .row
-    .span12
-      .result-container
-        ul.menu
-          li data-type='list'  List
-          li data-type='graph' Graph
-          li data-type='gantt' Gantt
+  .question-container
+    p.question
+  .result-container
+    ul.menu
+      li data-type='list'  List
+      li data-type='graph' Graph
+      li data-type='gantt' Gantt
 
-        .result-display
-          svg
-          ol
-  .row
-    .span12
-      .speech-contatiner
-        .new-idea-button
-        input id="speech-button" type="text" x-webkit-speech="true"
-        .fake-speech-button
+    .result-display
+      svg
+      ol
+    .logo
+  .speech-contatiner
+    .new-idea-button
+    input class="speech-button" type="text" x-webkit-speech="true"
+    .fake-speech-button

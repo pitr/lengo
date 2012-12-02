@@ -55,7 +55,12 @@ ask = (message, cb) ->
     soundManager.play sound.id, onfinish: ->
       $('.fake-speech-button').removeClass('pressed')
       $('.fake-speech-button').show()
-      $('#speech-button').show().one 'webkitspeechchange', (event) ->
+      $('.speech-button').show().one 'webkitspeechchange', (event) ->
+        $('.speech-button').hide()
+        $el = $('.speech-button').removeClass('speech-button')
+        setTimeout(->
+          $el.addClass('speech-button')
+        , 1000)
         cb event.originalEvent.results[0]?.utterance
 
   $('.question').text(message)
@@ -176,7 +181,7 @@ save_ideas = -> $.post '/ideas', {idea: root_idea}
 
 $ ->
   $('.fake-speech-button').hide()
-  $('#speech-button').hide()
+  $('.speech-button').hide()
 
   $svg  = $('.result-display svg').hide()
   $list = $('.result-display ol')
@@ -199,10 +204,11 @@ $ ->
   soundManager.setup
     url: '/swf/'
     onready: ->
-      $('#speech-button').click ->
+      $('.speech-button').click ->
         $('.fake-speech-button').addClass('pressed')
       $('.new-idea-button').click ->
         $(@).hide()
+        $('.logo').hide()
         ask "What would you like to do?", (title) ->
           window.root_idea = {title}
           add_idea_to_results root_idea
