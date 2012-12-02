@@ -1,9 +1,11 @@
 parametrize = (string) -> string.toLowerCase().replace(/[^a-z0-9\-_]+/ig, '-').replace(/^-+|-+$/,'')
 
+skipped = []
+
 setInterval ->
   $results = $('.result-container')
   $results.scrollTop($results.height())
-, 5000
+, 500
 
 random = (min, max) ->
   Math.floor(Math.random() * (max - min + 1)) + min
@@ -17,7 +19,7 @@ what_else = ->
     when 5 then "More?"
 
 what_tasks_for = (idea) ->
-  -> "What are the tasks required #{idea.title}?"
+  -> "What are the tasks required to #{idea.title}?"
 
 nothing = (message) ->
   message = message.toLowerCase()
@@ -26,7 +28,18 @@ nothing = (message) ->
   return yes if message.match /that is it/
   return yes if message.match /that's it/
   return yes if message.match /done/
+  return yes if message.match /^no(pe|ne)?$/
   no
+
+skip = (message) ->
+  message = message.toLowerCase()
+  return yes if message.match /skip/
+  return yes if message.match /not now/
+  return yes if message.match /pass/
+  return yes if message.match /don't know/
+  return yes if message.match /do not know/
+  no
+
 
 ask = (message, cb) ->
   play = (sound) ->
@@ -63,7 +76,10 @@ ask_for_components_of = (ideas_to_explore, current_idea) ->
       message = what_tasks_for current_idea
 
   ask message(), (sub_idea_title) ->
-    if nothing sub_idea_title
+    if skip sub_idea_title
+      ideas_to_explore.push current_idea
+      ask_for_components_of ideas_to_explore
+    else if nothing sub_idea_title
       ask_for_components_of ideas_to_explore
     else
       current_idea.sub_ideas_to_explore ||= []
