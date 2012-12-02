@@ -17,10 +17,10 @@ class Idea < ActiveRecord::Base
     json['sub_ideas'].try(:each) do |_, sub_json|
       sub_idea = self.sub_ideas.build title: sub_json['title']
       sub_idea.create_from_json(sub_json)
-      if sub_json['duration'].present?
-        sub_idea.duration = ChronicDuration.parse(sub_json['duration'])
-      end
       sub_idea.save!
+    end
+    if json['duration'].present?
+      self.duration = ChronicDuration.parse(json['duration'])
     end
     self.save!
   end

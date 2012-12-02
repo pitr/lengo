@@ -13,5 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require soundmanager2
+//= require d3.v2
 //= require ideas
 

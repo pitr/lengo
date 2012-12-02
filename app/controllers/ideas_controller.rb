@@ -15,7 +15,7 @@ class IdeasController < ApplicationController
   def create
     @root_idea = Idea.create_from_json(params[:idea])
 
-    render :template => "ideas/completed"
+    render json: @root_idea, status: :created, location: @root_idea
   end
 
   def completed

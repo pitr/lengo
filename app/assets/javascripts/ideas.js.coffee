@@ -107,7 +107,7 @@ ask_for_components_of = (ideas_to_explore, current_idea = null) ->
       ask_for_components_of ideas_to_explore, current_idea
 
 
-save_ideas = -> $.post '/ideas', data: {idea: root_idea}
+save_ideas = -> $.post '/ideas', {idea: root_idea}
 
 $ ->
   $('.fake-speech-button').hide()
