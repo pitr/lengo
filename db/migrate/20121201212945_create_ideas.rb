@@ -3,6 +3,10 @@ class CreateIdeas < ActiveRecord::Migration
     create_table :ideas do |t|
       t.string :title
 
+      t.references :parent
+
+      t.integer :priority
+
       t.timestamps
     end
   end

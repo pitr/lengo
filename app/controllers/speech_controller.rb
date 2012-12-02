@@ -11,7 +11,4 @@ class SpeechController < ApplicationController
     headers
     render :text => body, :content_type => 'audio/mpeg'
   end
-
-  def recognize
-  end
 end

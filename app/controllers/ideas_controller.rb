@@ -17,26 +17,13 @@ class IdeasController < ApplicationController
     end
   end
 
-  def new
-    @idea = Idea.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @idea }
-    end
-  end
-
   def create
-    @idea = Idea.new(params[:idea])
+    @idea = Idea.new(title: params[:title])
 
-    respond_to do |format|
-      if @idea.save
-        format.html { redirect_to @idea, notice: 'Idea was successfully created.' }
-        format.json { render json: @idea, status: :created, location: @idea }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @idea.errors, status: :unprocessable_entity }
-      end
+    if @idea.save
+      render json: @idea, status: :created, location: @idea
+    else
+      render json: @idea.errors, status: :unprocessable_entity
     end
   end
 

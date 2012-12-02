@@ -13,17 +13,10 @@
 
 ActiveRecord::Schema.define(:version => 20121201212945) do
 
-  create_table "components", :force => true do |t|
-    t.integer  "idea_id"
-    t.integer  "parent_id"
-    t.integer  "priority"
-    t.text     "body"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "ideas", :force => true do |t|
     t.string   "title"
+    t.integer  "parent_id"
+    t.integer  "priority"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

@@ -9,14 +9,5 @@ html
         = javascript_include_tag "application"
         = csrf_meta_tags
         = yield(:head)
-  body class="#{controller_name} #{action_name}"
-    header.navbar.navbar-fixed-top
-      nav.navbar-inner
-        .container
-          = render 'layouts/navigation'
-    #main role="main"
-      .container
-        .row
-          .span12
-            = render 'layouts/messages'
-            = yield
+  body
+    = yield

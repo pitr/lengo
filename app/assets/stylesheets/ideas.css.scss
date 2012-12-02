@@ -1,3 +1,26 @@
+.question-container {
+  height: 100px;
+}
+
+.result-container {
+  height: 250px;
+  overflow-y: scroll;
+  overflow-x: no-scroll;
+}
+
+.speech-contatiner {
+  overflow: hidden;
+
+  height: 131px;
+  width: 306px;
+
+  position: relative;
+
+  top:0;
+  left:0;
+}
+
+
 .new-idea {
   float: left;
 }
@@ -16,8 +39,9 @@
   -webkit-transform: scale(8, 8) !important;
 
   position: absolute;
-  top: 92px;
-  left: -252px;
+
+  top: -80px;
+  left: -257px;
 }
 
 .fake-speech-button {
@@ -27,9 +51,3 @@
   height: 131px;
 }
 
-#speech-contatiner {
-  overflow: hidden;
-
-  height: 131px;
-  width: 306px;
-}
