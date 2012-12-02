@@ -11,6 +11,8 @@ ask = (message) ->
       soundManager.play @id
 
 $ ->
+  $('.fake-speech-button').hide()
+  $('#speech-button').hide()
 
   soundManager.setup
     url: '/swf/'
@@ -18,6 +20,7 @@ $ ->
       $('.new-idea').click ->
         $(@).hide()
         ask "What's the name of your idea?"
+        $('.fake-speech-button').show()
         $('#speech-button').show().on 'webkitspeechchange', (event) ->
           console.log event
           console.log event.originalEvent.results[0]?.utterance

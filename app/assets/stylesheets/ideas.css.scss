@@ -1,16 +1,35 @@
-#speech-button {
-  opacity: 0.5;
+.new-idea {
+  float: left;
+}
 
-  font-size: 25px !important;
-  width: 25px !important;
-  height: 25px !important;
+#speech-button {
+  opacity: 0;
+
+  font-size: 306px !important;
+  width: 131px !important;
+  height: 306px !important;
   border: none !important;
-  position: absolute;
   margin-left: 5px;
   outline: none;
   background: transparent;
 
-  display: none;
+  -webkit-transform: scale(8, 8) !important;
 
-  -webkit-transform: scale(8,8);
+  position: absolute;
+  top: 92px;
+  left: -252px;
+}
+
+.fake-speech-button {
+  background-image: image-url('answer.png');
+  background-repeat: no-repeat;
+  width: 306px;
+  height: 131px;
+}
+
+#speech-contatiner {
+  overflow: hidden;
+
+  height: 131px;
+  width: 306px;
 }

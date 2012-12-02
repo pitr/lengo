@@ -16,9 +16,7 @@ html
           = render 'layouts/navigation'
     #main role="main"
       .container
-        .content
-          .row
-            .span12
-              = render 'layouts/messages'
-              = yield
-          footer
+        .row
+          .span12
+            = render 'layouts/messages'
+            = yield
