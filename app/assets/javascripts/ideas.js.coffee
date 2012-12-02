@@ -1,7 +1,5 @@
 parametrize = (string) -> string.toLowerCase().replace(/[^a-z0-9\-_]+/ig, '-').replace(/^-+|-+$/,'')
 
-skipped = []
-
 setInterval ->
   $results = $('.result-container')
   $results.scrollTop($results.height())
@@ -20,7 +18,7 @@ what_else = ->
     when 1 then "What else?"
     when 2 then "And what else?"
     when 3 then "What's next?"
-    else then "Got any more?"
+    else "Got any more?"
 
 what_tasks_for = (idea) ->
   ->
@@ -83,7 +81,7 @@ ask_for_components_of = (ideas_to_explore, current_idea = null) ->
     message = what_else
   else
     if ideas_to_explore.length == 0
-      alert('done')
+      save_ideas()
       return
     else
       current_idea = ideas_to_explore.shift() #_randomly() ???
@@ -108,7 +106,7 @@ ask_for_components_of = (ideas_to_explore, current_idea = null) ->
       ask_for_components_of ideas_to_explore, current_idea
 
 
-create_idea = (data, cb) -> $.post '/ideas', {data: data}, cb
+save_ideas = -> $.post '/ideas', data: {idea: root_idea}
 
 $ ->
   $('.fake-speech-button').hide()

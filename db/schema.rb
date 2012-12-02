@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(:version => 20121201212945) do
 
   create_table "ideas", :force => true do |t|
     t.string   "title"
+    t.integer  "duration"
     t.integer  "parent_id"
     t.integer  "priority"
     t.datetime "created_at", :null => false
