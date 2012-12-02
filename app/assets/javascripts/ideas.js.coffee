@@ -83,6 +83,7 @@ ask_for_components_of = (ideas_to_explore, current_idea = null) ->
   else
     if ideas_to_explore.length == 0
       save_ideas()
+      render_graph()
       return
     else
       current_idea = ideas_to_explore.shift() #_randomly() ???
@@ -106,12 +107,60 @@ ask_for_components_of = (ideas_to_explore, current_idea = null) ->
       ideas_to_explore.push new_idea
       ask_for_components_of ideas_to_explore, current_idea
 
+@render_graph = ->
+  $('.result-container').children().toggle()
+  $('svg').children().remove()
+
+  width = 640
+  height = 250
+
+  cluster = d3.layout.cluster()
+    .size([height, width - 100])
+    .children (d) -> d.sub_ideas
+
+  diagonal = d3.svg.diagonal()
+      .projection (d) -> [d.y, d.x]
+
+  svg = d3.select("svg")
+      .attr("width", width)
+      .attr("height", height)
+    .append("g")
+      .attr("transform", "translate(50,0)")
+
+  nodes = cluster.nodes(root_idea)
+  links = cluster.links(nodes)
+
+  link = svg.selectAll(".link")
+      .data(links)
+    .enter().append("path")
+      .attr("class", "link")
+      .attr("d", diagonal)
+
+  node = svg.selectAll(".node")
+      .data(nodes)
+    .enter().append("g")
+      .attr("class", "node")
+      .attr "transform", (d) -> "translate(#{d.y},#{d.x})"
+
+  node.append("svg:ellipse")
+      .attr("rx", 45)
+      .attr("ry", 15)
+
+  node.append("text")
+      .attr
+        'alignment-baseline': 'middle'
+        'text-anchor': 'middle'
+      .text((d) -> d.title)
+
+  d3.select(self.frameElement).style("height", "#{height}px")
+
 
 save_ideas = -> $.post '/ideas', {idea: root_idea}
 
 $ ->
   $('.fake-speech-button').hide()
   $('#speech-button').hide()
+  $('svg').hide()
 
   soundManager.setup
     url: '/swf/'
