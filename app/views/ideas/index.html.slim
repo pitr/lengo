@@ -1,11 +1,16 @@
 .container
   .question-container
+    .q_mark
     p.question
+    .break
   .result-container
     ul.menu
-      li data-type='list'  List
-      li data-type='graph' Graph
-      li data-type='gantt' Gantt
+      li data-type='list'
+        =image_tag("icon_list.png")
+      li data-type='graph'
+        =image_tag("icon_graph.png")
+      li data-type='gantt'
+        =image_tag("icon_gantt.png")
 
     .result-display
       svg

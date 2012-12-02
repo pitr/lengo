@@ -190,6 +190,8 @@ $ ->
   $('.fake-speech-button').hide()
   $('.speech-button').hide()
   $('.menu').hide()
+  $('.q_mark').hide()
+  $('.break').hide()
 
   $list   = $('.result-display ol')
   $svg    = $('.result-display svg').hide()
@@ -222,6 +224,8 @@ $ ->
         $(@).hide()
         $('.logo').hide()
         $('.menu').show()
+        $('.q_mark').show()
+        $('.break').show()
         ask "What would you like to do?", (title) ->
           window.root_idea = {title}
           add_idea_to_results root_idea
