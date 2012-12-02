@@ -105,7 +105,7 @@ ask_for_components_of = (ideas_to_explore, current_idea = null) ->
           ask_for_components_of ideas_to_explore
     else
       current_idea.sub_ideas ||= []
-      new_idea = {title: sub_idea_title}
+      new_idea = {title: sub_idea_title, priority: current_idea.sub_ideas.length}
       add_idea_to_results new_idea
       current_idea.sub_ideas.push new_idea
       ideas_to_explore.push new_idea
@@ -125,10 +125,12 @@ ask_for_components_of = (ideas_to_explore, current_idea = null) ->
       .projection (d) -> [d.y, d.x]
 
   svg = d3.select("svg")
-      .attr("width", width)
-      .attr("height", height)
+      .attr
+        width: width
+        height: height
     .append("g")
-      .attr("transform", "translate(50,0)")
+      .attr
+        transform: "translate(50,0)"
 
   nodes = cluster.nodes(root_idea)
   links = cluster.links(nodes)
@@ -136,18 +138,21 @@ ask_for_components_of = (ideas_to_explore, current_idea = null) ->
   link = svg.selectAll(".link")
       .data(links)
     .enter().append("path")
-      .attr("class", "link")
-      .attr("d", diagonal)
+      .attr
+        class: "link"
+        d: diagonal
 
   node = svg.selectAll(".node")
       .data(nodes)
     .enter().append("g")
-      .attr("class", "node")
-      .attr "transform", (d) -> "translate(#{d.y},#{d.x})"
+      .attr
+        class: "node"
+        transform: (d) -> "translate(#{d.y},#{d.x})"
 
-  node.append("svg:ellipse")
-      .attr("rx", 45)
-      .attr("ry", 15)
+  node.append("ellipse")
+      .attr
+        rx: 45
+        ry: 15
 
   node.append("text")
       .attr
@@ -158,22 +163,25 @@ ask_for_components_of = (ideas_to_explore, current_idea = null) ->
   d3.select(self.frameElement).style("height", "#{height}px")
 
 @render_gantt = ->
-  $('svg').children().remove()
+  $result = $(".gantt").children().remove().end()
+  left_so_far = 0
 
-  width = 640
-  height = 250
-
-  svg = d3.select("svg")
-      .attr("width", width)
-      .attr("height", height)
-    .append("g")
-      .attr("transform", "translate(50,0)")
-
-  svg.append("text")
-      .text('(d) -> d.title')
-
-  d3.select(self.frameElement).style("height", "#{height}px")
-
+  render_idea = (idea) ->
+    left = left_so_far
+    title = idea.title
+    duration = 0
+    $el = $("<div class='ganttRow'><div class='ganttTitle'>#{title}</div><div class='ganttItem' style='left:#{left_so_far}px;'></div></div>")
+    $el.appendTo($result)
+    if idea.sub_ideas
+      for sub_idea in idea.sub_ideas
+        duration += render_idea(sub_idea)
+    else
+      # on leaf
+      left_so_far += 100 # idea.duration
+      duration = 100 # idea.duration
+    $el.find('.ganttItem').width("#{duration}px")
+    duration
+  render_idea(root_idea)
 
 
 save_ideas = -> $.post '/ideas', {idea: root_idea}
@@ -183,22 +191,26 @@ $ ->
   $('.speech-button').hide()
   $('.menu').hide()
 
-  $svg  = $('.result-display svg').hide()
-  $list = $('.result-display ol')
+  $list   = $('.result-display ol')
+  $svg    = $('.result-display svg').hide()
+  $gantt  = $('.result-display gantt').hide()
 
   $('.menu li').click ->
     type = $(@).data('type')
     switch type
       when 'list'
-        $svg.hide()
         $list.show()
+        $svg.hide()
+        $gantt.hide()
       when 'graph'
-        $svg.show()
         $list.hide()
+        $svg.show()
+        $gantt.hide()
         render_graph()
       when 'gantt'
-        $svg.show()
         $list.hide()
+        $svg.hide()
+        $gantt.show()
         render_gantt()
 
   soundManager.setup

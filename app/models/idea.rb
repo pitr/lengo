@@ -1,5 +1,4 @@
 class Idea < ActiveRecord::Base
-  attr_accessible :title
   attr_accessible :title, :idea, :parent, :priority
 
   belongs_to :parent, :class_name => 'Idea'

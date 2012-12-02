@@ -1,19 +1,78 @@
-.node ellipse {
-  fill: #fff;
-  stroke: orange;
-  stroke-width: 1.5px;
+svg {
+  .node ellipse {
+    fill: #fff;
+    stroke: orange;
+    stroke-width: 1.5px;
+  }
+
+  .node {
+    font: 10px sans-serif;
+  }
+
+  .link {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 1.5px;
+  }
 }
 
-.node {
-  font: 10px sans-serif;
-}
+.gantt {
+  color: #000;
+  background-image: url('gantt_cell.png');
+  background-repeat: repeat;
+  margin: 0px;
 
-.link {
-  fill: none;
-  stroke: #ccc;
-  stroke-width: 1.5px;
-}
+  .ganttRow {
+    position: relative;
+    width: 2000px; /* 200px + (total hours * 100px) */
+    height: 50px;
+  }
 
+  .ganttTitle {
+    position:relative;
+    width: 180px;
+    height: 30px;
+    background-image: image-url('gantt_title.png');
+    font-weight: bold;
+    font-size: 16px;
+    font-family: 'arial', sans-serif;
+    float:left;
+    padding: 10px 10px 10px;
+  }
+
+  .ganttTitleTask {
+    position:relative;
+    width: 160px;
+    height: 30px;
+    background-image: image-url('gantt_titletask.png');
+    font-weight: bold;
+    font-size: 14px;
+    font-family: 'arial', sans-serif;
+    float:left;
+    padding: 10px 20px 10px;
+  }
+
+  .ganttItem {
+    position:relative;
+    height: 50px;
+    background-color: #f47b20;
+    float:left;
+  }
+
+  .ganttItemTask {
+    position:relative;
+    height: 50px;
+    background-color: #ffaa3d;
+    float:left;
+  }
+
+  .ganttItemSubtask {
+    position:relative;
+    height: 50px;
+    background-color: #ffbf50;
+    float:left;
+  }
+}
 
 
 .menu li {
