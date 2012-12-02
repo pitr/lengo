@@ -53,7 +53,6 @@ add_idea_to_results = (idea) ->
 ask = (message, cb) ->
   play = (sound) ->
     soundManager.play sound.id, onfinish: ->
-      $('.fake-speech-button').removeClass('pressed')
       $('.fake-speech-button').show()
       $('.speech-button').show().one 'webkitspeechchange', (event) ->
         $('.speech-button').hide()
@@ -182,6 +181,7 @@ save_ideas = -> $.post '/ideas', {idea: root_idea}
 $ ->
   $('.fake-speech-button').hide()
   $('.speech-button').hide()
+  $('.menu').hide()
 
   $svg  = $('.result-display svg').hide()
   $list = $('.result-display ol')
@@ -205,10 +205,11 @@ $ ->
     url: '/swf/'
     onready: ->
       $('.speech-button').click ->
-        $('.fake-speech-button').addClass('pressed')
+        $('.fake-speech-button').hide()
       $('.new-idea-button').click ->
         $(@).hide()
         $('.logo').hide()
+        $('.menu').show()
         ask "What would you like to do?", (title) ->
           window.root_idea = {title}
           add_idea_to_results root_idea
