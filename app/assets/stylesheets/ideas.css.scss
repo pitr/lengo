@@ -1,0 +1,16 @@
+#speech-button {
+  opacity: 0.5;
+
+  font-size: 25px !important;
+  width: 25px !important;
+  height: 25px !important;
+  border: none !important;
+  position: absolute;
+  margin-left: 5px;
+  outline: none;
+  background: transparent;
+
+  display: none;
+
+  -webkit-transform: scale(8,8);
+}

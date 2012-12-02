@@ -1,0 +1,21 @@
+h1 Listing ideas
+
+table
+  tr
+    th Title
+    th
+    th
+    th
+
+  - @ideas.each do |idea|
+    tr
+      td = idea.title
+      td = link_to 'Show', idea
+      td = link_to 'Edit', edit_idea_path(idea)
+      td = link_to 'Destroy', idea, :confirm => 'Are you sure?', :method => :delete
+
+br
+
+button class='btn btn-large btn-primary new-idea' New Idea
+
+input#speech-button type='text' x-webkit-speech='true'
