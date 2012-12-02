@@ -201,18 +201,18 @@ $ ->
     type = $(@).data('type')
     switch type
       when 'list'
-        $list.show()
-        $svg.hide()
-        $gantt.hide()
+        $('.result-display ol').show()
+        $('.result-display svg').hide()
+        $('.result-display .gantt').hide()
       when 'graph'
-        $list.hide()
-        $svg.show()
-        $gantt.hide()
+        $('.result-display ol').hide()
+        $('.result-display svg').show()
+        $('.result-display .gantt').hide()
         render_graph()
       when 'gantt'
-        $list.hide()
-        $svg.hide()
-        $gantt.show()
+        $('.result-display ol').hide()
+        $('.result-display svg').hide()
+        $('.result-display .gantt').show()
         render_gantt()
 
   soundManager.setup
