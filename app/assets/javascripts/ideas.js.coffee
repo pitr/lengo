@@ -10,16 +10,25 @@ setInterval ->
 random = (min, max) ->
   Math.floor(Math.random() * (max - min + 1)) + min
 
+how_long = (idea) ->
+  switch random(1, 2)
+    when 1 then "How long in hours would it take to #{idea.title}"
+    when 2 then "How many hours would it take to #{idea.title}"
+
 what_else = ->
-  switch random(1, 5)
+  switch random(1, 4)
     when 1 then "What else?"
     when 2 then "And what else?"
     when 3 then "What's next?"
-    when 4 then "Got any more?"
-    when 5 then "More?"
+    else then "Got any more?"
 
 what_tasks_for = (idea) ->
-  -> "What are the tasks required to #{idea.title}?"
+  ->
+    switch random(1,4)
+      when 1 then "What is one task required to #{idea.title}?"
+      when 2 then "What is a task required to #{idea.title}?"
+      when 3 then "Name one task required to #{idea.title}?"
+      when 4 then "In order to #{idea.title}, what does one need to do?"
 
 nothing = (message) ->
   message = message.toLowerCase()
@@ -40,15 +49,15 @@ skip = (message) ->
   return yes if message.match /do not know/
   no
 
+add_idea_to_results = (idea) ->
+  $('.result-container ol').append($("<li>#{idea.title}</li>"))
 
 ask = (message, cb) ->
   play = (sound) ->
     soundManager.play sound.id, onfinish: ->
       $('.fake-speech-button').show()
       $('#speech-button').show().one 'webkitspeechchange', (event) ->
-        title = event.originalEvent.results[0]?.utterance
-        $('.result-container ol').append($("<li>#{title}</li>"))
-        cb title
+        cb event.originalEvent.results[0]?.utterance
 
   $('.question').text(message)
   id = parametrize message
@@ -64,7 +73,12 @@ ask = (message, cb) ->
       volume: 50
       onload: -> play @
 
-ask_for_components_of = (ideas_to_explore, current_idea) ->
+ask_for_duration_of = (current_idea, cb) ->
+  ask how_long(current_idea), (duration) ->
+    current_idea.duration = duration
+    cb()
+
+ask_for_components_of = (ideas_to_explore, current_idea = null) ->
   if current_idea
     message = what_else
   else
@@ -80,11 +94,16 @@ ask_for_components_of = (ideas_to_explore, current_idea) ->
       ideas_to_explore.push current_idea
       ask_for_components_of ideas_to_explore
     else if nothing sub_idea_title
-      ask_for_components_of ideas_to_explore
+      if current_idea.sub_ideas?.length > 0
+        ask_for_components_of ideas_to_explore
+      else
+        ask_for_duration_of current_idea, ->
+          ask_for_components_of ideas_to_explore
     else
-      current_idea.sub_ideas_to_explore ||= []
+      current_idea.sub_ideas ||= []
       new_idea = {title: sub_idea_title}
-      current_idea.sub_ideas_to_explore.push new_idea
+      add_idea_to_results new_idea
+      current_idea.sub_ideas.push new_idea
       ideas_to_explore.push new_idea
       ask_for_components_of ideas_to_explore, current_idea
 
@@ -100,8 +119,9 @@ $ ->
     onready: ->
       $('.new-idea').click ->
         $(@).hide()
-        ask "What's the name of your idea?", (title) ->
+        ask "What would you like to do?", (title) ->
           window.root_idea = {title}
+          add_idea_to_results root_idea
           ask_for_components_of [root_idea]
     ontimeout: ->
       alert 'could not be started!'
