@@ -108,7 +108,6 @@ ask_for_components_of = (ideas_to_explore, current_idea = null) ->
       ask_for_components_of ideas_to_explore, current_idea
 
 @render_graph = ->
-  $('.result-container').children().toggle()
   $('svg').children().remove()
 
   width = 640
@@ -154,13 +153,48 @@ ask_for_components_of = (ideas_to_explore, current_idea = null) ->
 
   d3.select(self.frameElement).style("height", "#{height}px")
 
+@render_gantt = ->
+  $('svg').children().remove()
+
+  width = 640
+  height = 250
+
+  svg = d3.select("svg")
+      .attr("width", width)
+      .attr("height", height)
+    .append("g")
+      .attr("transform", "translate(50,0)")
+
+  svg.append("text")
+      .text('(d) -> d.title')
+
+  d3.select(self.frameElement).style("height", "#{height}px")
+
+
 
 save_ideas = -> $.post '/ideas', {idea: root_idea}
 
 $ ->
   $('.fake-speech-button').hide()
   $('#speech-button').hide()
-  $('svg').hide()
+
+  $svg  = $('.result-display svg').hide()
+  $list = $('.result-display ol')
+
+  $('.menu li').click ->
+    type = $(@).data('type')
+    switch type
+      when 'list'
+        $svg.hide()
+        $list.show()
+      when 'graph'
+        $svg.show()
+        $list.hide()
+        render_graph()
+      when 'gantt'
+        $svg.show()
+        $list.hide()
+        render_gantt()
 
   soundManager.setup
     url: '/swf/'
