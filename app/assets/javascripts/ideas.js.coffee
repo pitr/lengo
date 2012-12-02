@@ -53,6 +53,7 @@ add_idea_to_results = (idea) ->
 ask = (message, cb) ->
   play = (sound) ->
     soundManager.play sound.id, onfinish: ->
+      $('.fake-speech-button').removeClass('pressed')
       $('.fake-speech-button').show()
       $('#speech-button').show().one 'webkitspeechchange', (event) ->
         cb event.originalEvent.results[0]?.utterance
@@ -115,7 +116,9 @@ $ ->
   soundManager.setup
     url: '/swf/'
     onready: ->
-      $('.new-idea').click ->
+      $('#speech-button').click ->
+        $('.fake-speech-button').addClass('pressed')
+      $('.new-idea-button').click ->
         $(@).hide()
         ask "What would you like to do?", (title) ->
           window.root_idea = {title}

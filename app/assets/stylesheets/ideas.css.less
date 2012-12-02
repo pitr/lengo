@@ -1,3 +1,14 @@
+.button (@img) {
+  background-image: image-url(@img);
+  background-repeat: no-repeat;
+  width: 306px;
+  height: 131px;
+}
+
+.pressed {
+  background-position-y: -131px;
+}
+
 .question-container {
   height: 100px;
 }
@@ -17,11 +28,12 @@
   position: relative;
 
   top:0;
-  left:0;
+  left: 167px;
 }
 
 
-.new-idea {
+.new-idea-button {
+  .button('newidea.png');
   float: left;
 }
 
@@ -45,9 +57,5 @@
 }
 
 .fake-speech-button {
-  background-image: image-url('answer.png');
-  background-repeat: no-repeat;
-  width: 306px;
-  height: 131px;
+  .button('answer.png');
 }
-
